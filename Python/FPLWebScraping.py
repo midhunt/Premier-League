@@ -5,14 +5,9 @@ import requests
 import dryscrape
 from bs4 import BeautifulSoup
 
-# STATS_TYPE_url = ["event_points", "minutes", "goals_scored", "assists", "clean_sheets", "goals_conceded", 
-# 				  "own_goals","penalties_saved", "penalties_missed", "yellow_cards", "red_cards", 
-# 				  "saves", "bonus", "bps", "influence", "creativity", "threat", "ict_index", 
-# 				  "dreamteam_count", "value_form", "value_season", "points_per_game", "transfers_in", 
-# 				  "transfers_out", "transfers_in_event", "transfers_out_event", "cost_change_start", 
-# 				  "cost_change_start_fall", "cost_change_event", "cost_change_event_fall"]
-
-STATS_TYPE_url = ["saves", "bonus", "bps", "influence", "creativity", "threat", "ict_index", 
+STATS_TYPE_url = ["event_points", "minutes", "goals_scored", "assists", "clean_sheets", "goals_conceded", 
+				  "own_goals","penalties_saved", "penalties_missed", "yellow_cards", "red_cards", 
+				  "saves", "bonus", "bps", "influence", "creativity", "threat", "ict_index", 
 				  "dreamteam_count", "value_form", "value_season", "points_per_game", "transfers_in", 
 				  "transfers_out", "transfers_in_event", "transfers_out_event", "cost_change_start", 
 				  "cost_change_start_fall", "cost_change_event", "cost_change_event_fall"]
