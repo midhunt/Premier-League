@@ -1,9 +1,10 @@
+import os
 import csv
 import time
-import urllib2
-import requests
 import dryscrape
 from bs4 import BeautifulSoup
+
+RootDirectory = os.environ['MyGitRepo']
 
 STATS_TYPE_url = ["event_points", "minutes", "goals_scored", "assists", "clean_sheets", "goals_conceded", 
 				  "own_goals","penalties_saved", "penalties_missed", "yellow_cards", "red_cards", 
@@ -14,19 +15,23 @@ STATS_TYPE_url = ["event_points", "minutes", "goals_scored", "assists", "clean_s
 
 TEAMS_DICT = {"Arsenal":"te_1", "Bournemouth":"te_2","Burnley":"te_3","Chelsea":"te_4","Crystal Palace":"te_5",
 "Everton":"te_6", "Hull":"te_7", "Leicester":"te_8", "Liverpool":"te_9", "Man City":"te_10", "Man Utd":"te_11",
-"Middlesbrough":"te_12","Southampton":"te_13","Stoke":"te_14", "Sunderland":"te_15", "Swansea":"te_16", "Totenham":"te_17",
+"Middlesbrough":"te_12","Southampton":"te_13","Stoke":"te_14", "Sunderland":"te_15", "Swansea":"te_16", "Tottenham":"te_17",
 "Watford":"te_18", "West Brom":"te_19", "West Ham":"te_20"}
 
 Table_columns = ['player_name', 'player_team', 'player_location', 'now_cost', 'selected_by_percent', 'form', 'total_points']
 
 for stats_type in STATS_TYPE_url:
 	for key in sorted(TEAMS_DICT):
-		file = csv.writer(open("Teams/"+key+"/"+stats_type+".csv", "w"))
+           # creating folder if they don't exist  
+		if not os.path.exists(RootDirectory + "/Premier-League/Teams/" + key):
+			os.makedirs(RootDirectory + "/Premier-League/Teams/" + key)
+			
+		file = csv.writer(open(RootDirectory+"/Premier-League/Teams/"+key+"/"+stats_type+".csv", "w"))
 		url = "https://fantasy.premierleague.com/a/statistics/"+stats_type+"/"+TEAMS_DICT[key]
 
 		session = dryscrape.Session()
 		session.visit(url)
-		time.sleep(20)
+		time.sleep(5)
 		response = session.body()
 
 		# writing column names of csv file
