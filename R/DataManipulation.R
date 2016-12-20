@@ -21,7 +21,12 @@ FPL_Player_Statistics <- do.call("rbind",
                                              recursive = F, 
                                              full.names = T),
                                    FUN = function(folder) {
-                                     Reduce(function(...) merge(..., all=T), 
+                                     Reduce(function(...) merge(..., 
+                                                                by = c("player_name", "player_team",
+                                                                       "player_location", "now_cost",
+                                                                       "selected_by_percent", "form",
+                                                                       "total_points"),
+                                                                all=T), 
                                             lapply(list.files(folder, 
                                                               full.names = T),
                                                    FUN = function(files){
@@ -62,5 +67,25 @@ setnames(x = FPL_Player_Statistics,
          old = cost_columns, 
          new = cost_columns_newnames)
 
-# checking the structure of the table
-str(FPL_Player_Statistics)
+
+# Crawled Data ------------------------------------------------------------
+
+player_current_status[, c("photo", "loans_in", "loans_out", "loaned_out", "loaned_in",
+                          "code", "web_name", "squad_number") := NULL]
+
+write.csv(player_current_status, 
+          "ExtractedData/Player_Current_Status.csv", 
+          row.names = F)
+
+player_season_history[, c("loaned_in", "loaned_out", "id", "kickoff_time") := NULL]
+
+write.csv(player_season_history,
+          "ExtractedData/Player_Season_History.csv",
+          row.names = F)
+
+player_past_history[, c("id", "element_code",
+                        "influence", "creativity", "threat") := NULL]
+
+write.csv(player_past_history,
+          "ExtractedData/Player_Past_History.csv",
+          row.names = F)
