@@ -27,6 +27,7 @@ lPlayerSeasonHistory <- list()
 
 # Getting each individual player past history, season history and details
 for(i in seq(nrow(lPremierLeague$elements))){
+  print(i)
   player_id <- lPremierLeague$elements$id[i]
   player_fullname <- lPremierLeague$elements$player_fullname[i]
   lPlayerData <- fromJSON(readLines(lPremierLeague$elements$player_hist_link[i]),
@@ -44,11 +45,38 @@ for(i in seq(nrow(lPremierLeague$elements))){
                                             player_fullname = player_fullname,
                                             lPlayerData$history)
   
-  Sys.sleep(2)
+  Sys.sleep(1)
   
 }
 
 # Binding the data together
-player_season_history <- as.data.table(do.call("rbind", lPlayerSeasonHistory))
-player_past_history <- as.data.table(do.call("rbind", lPlayerPastHistory))
+player_season_history <- as.data.table(
+  do.call("rbind", lPlayerSeasonHistory)
+  )
+
+write.csv(player_season_history, 
+          "Datasets/player_season_history_2017_18.csv", 
+          row.names = F)
+
+player_past_history <- as.data.table(
+  do.call("rbind", lPlayerPastHistory)
+  )
+
+write.csv(player_past_history,
+          "Datasets/player_past_history_2017_18.csv",
+          row.names = F)
+
 player_current_status <- as.data.table(lPremierLeague$elements)
+
+write.csv(player_current_status,
+          "Datasets/player_current_status_2017_18.csv",
+          row.names = F)
+
+teams <- as.data.table(lPremierLeague$teams)
+
+teams[, c("current_event_fixture", 
+          "next_event_fixture", "link_url") := NULL]
+
+write.csv(teams,
+          "Datasets/teams_2017_18.csv",
+          row.names = F)

@@ -1,8 +1,9 @@
+# Loading the required pacakges
 library(ggplot2)
 library(data.table)
+library(streamgraph)
 
 names(FPL_Player_Statistics)
-
 
 hist(FPL_Player_Statistics$value_season, 
      breaks = 100,
@@ -94,3 +95,56 @@ ggplot(my_current_team) +
   facet_wrap(~ player_fullname) +
   theme(legend.position = "bottom")
 
+
+
+# Injured Players
+injured_players <- player_current_status[status == "i", .(player_fullname, 
+                                                         news, 
+                                                         cost_change_event_fall,
+                                                         cost_change_start_fall)]
+# Suspended Players
+suspended_players <- player_current_status[status == "s", .(player_fullname, 
+                                                            news, 
+                                                            cost_change_event_fall,
+                                                            cost_change_start_fall)]
+
+
+## Plotting Players past points on to streamgraph --------------------------------------
+# subsetting the data
+player_past_points <- player_past_history[, .(season_name, player_fullname, total_points)]
+
+# arranging the table according to season_name
+setorder(player_past_points, "season_name")
+
+# change the season names to season ending year
+player_past_points[, season_name := as.numeric(gsub("20[0-1][0-9]/", "20", season_name))]
+
+# plotting streamgraph
+player_past_points %>% 
+  streamgraph("player_fullname", "total_points", 
+              "season_name", offset="zero") %>%
+  sg_axis_x(1, "season_name", "%Y") %>%
+  sg_legend(show = TRUE, label = "Player Name:")
+
+## Whos and whats -------------------------------------------------------------------
+
+# worst goal keeper 
+player_past_history[goals_conceded == max(goals_conceded), .(player_fullname, season_name, goals_conceded)]
+
+# Best goal keeper
+player_past_history[saves == max(saves), .(player_fullname, season_name, saves, goals_conceded)]
+
+# maximum goals scored
+player_past_history[goals_scored == max(goals_scored), .(player_fullname, season_name, goals_scored, assists)]
+
+# maximum assists
+player_past_history[assists == max(assists), .(player_fullname, season_name, goals_scored, assists)]
+
+player_season_history[player_fullname %in% player_current_status[element_type == 1, player_fullname], .(player_fullname, saves, goals_conceded, clean_sheets, total_points, own_goals)]
+
+
+# Player Past Analysis ----------------------------------------------------
+library(ggplot2)
+
+ggplot(player_past_history) +
+  geom_point(aes(x = start_cost, y = total_points))

@@ -1,0 +1,14 @@
+---
+title: "Player Analysis"
+author: "Midhun Thaduru"
+date: "20 December 2016"
+output: html_document
+---
+
+```{r LoadLibraries, include=FALSE}
+
+library(ggplot2)
+library(data.table)
+
+```
+

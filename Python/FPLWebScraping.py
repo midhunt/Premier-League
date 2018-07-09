@@ -6,25 +6,29 @@ from bs4 import BeautifulSoup
 
 RootDirectory = os.environ['MyGitRepo']
 
-#STATS_TYPE_url = ["event_points", "minutes", "goals_scored", "assists", "clean_sheets", "goals_conceded", 
-#				  "own_goals","penalties_saved", "penalties_missed", "yellow_cards", "red_cards", 
-#				  "saves", "bonus", "bps", "influence", "creativity", "threat", "ict_index", 
-#				  "dreamteam_count", "value_form", "value_season", "points_per_game", "transfers_in", 
-#				  "transfers_out", "transfers_in_event", "transfers_out_event", "cost_change_start", 
-#				  "cost_change_start_fall", "cost_change_event", "cost_change_event_fall"]
+# STATS_TYPE_url = ["event_points", "minutes", "goals_scored", "assists", "clean_sheets", 
+# 				 "goals_conceded", "own_goals","penalties_saved", "penalties_missed", 
+# 				 "yellow_cards", "red_cards", "saves", "bonus", "bps", "influence", 
+# 				 "creativity", "threat", "ict_index", "dreamteam_count", "value_form", 
+# 				 "value_season", "points_per_game", "transfers_in", "transfers_out", 
+# 				 "transfers_in_event", "transfers_out_event", "cost_change_start", 
+# 				 "cost_change_start_fall", "cost_change_event", "cost_change_event_fall"]
 
       
 STATS_TYPE_url = "cost_change_event_fall"
       
       
-#TEAMS_DICT = {"Arsenal":"te_1", "Bournemouth":"te_2","Burnley":"te_3","Chelsea":"te_4","Crystal Palace":"te_5",
-#"Everton":"te_6", "Hull":"te_7", "Leicester":"te_8", "Liverpool":"te_9", "Man City":"te_10", "Man Utd":"te_11",
-#"Middlesbrough":"te_12","Southampton":"te_13","Stoke":"te_14", "Sunderland":"te_15", "Swansea":"te_16", "Tottenham":"te_17",
-#"Watford":"te_18", "West Brom":"te_19", "West Ham":"te_20"}
+# TEAMS_DICT = {"Arsenal":"te_1", "Bournemouth":"te_2","Brighton":"te_3","Burnley":"te_4",
+# 				"Chelsea":"te_5", "Crystal Palace":"te_6", "Everton":"te_7", 
+# 				"Huddersfield":"te_8", "Leicester":"te_9", "Liverpool":"te_10", 
+# 				"Man City":"te_11", "Man Utd":"te_12","Newcastle":"te_13",
+# 				"Southampton":"te_14", "Spurs":"te_15", "Stoke":"te_16", "Swansea":"te_17",
+# 				"Watford":"te_18", "West Brom":"te_19", "West Ham":"te_20"}
 
 TEAMS_DICT = {"West Ham":"te_20"}
 
-Table_columns = ['player_name', 'player_team', 'player_location', 'now_cost', 'selected_by_percent', 'form', 'total_points']
+Table_columns = ['player_name', 'player_team', 'player_location', 
+				'now_cost', 'selected_by_percent', 'form', 'total_points']
 
 for stats_type in STATS_TYPE_url:
 	for key in sorted(TEAMS_DICT):
